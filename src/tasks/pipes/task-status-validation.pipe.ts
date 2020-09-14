@@ -1,5 +1,5 @@
-import { PipeTransform, ArgumentMetadata, BadRequestException } from "@nestjs/common";
-import { TaskStatus } from "../task.module";
+import { PipeTransform, BadRequestException } from "@nestjs/common";
+import { TaskStatus } from "../task-status.enum";
 
 export class TaskStatusValidationPipe implements PipeTransform {
 	readonly allowedStatuses = [
@@ -8,7 +8,7 @@ export class TaskStatusValidationPipe implements PipeTransform {
 		TaskStatus.IN_PROGRESS
 	];
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	transform(value: any, metadata?: ArgumentMetadata) {
+	transform(value: any) {
 		value = value.toUpperCase();
 
 		if (!this.isStatusValid(value)) {
