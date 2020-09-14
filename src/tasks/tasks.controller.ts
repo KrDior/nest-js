@@ -5,31 +5,31 @@ import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTaskFilterDto } from './dto/get-tast-filter.dto';
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
-import { Task } from './task.module';
-// import { Task } from './task.entity';
+// import { Task } from './task.module';
+import { Task } from './task.entity';
 
 @Controller('tasks')
 export class TasksController {
 	constructor(private taskService: TasksService) {}
 
-	@Get()
-	getTasks(@Query(ValidationPipe) filterDto: GetTaskFilterDto): Task[] {
-		if (Object.keys(filterDto).length) {
-			return this.taskService.getTaskWithFilter(filterDto);
-		} else {
-			return this.taskService.getAllTasks();
-		}
-	}
+	// @Get()
+	// getTasks(@Query(ValidationPipe) filterDto: GetTaskFilterDto): Task[] {
+	// 	if (Object.keys(filterDto).length) {
+	// 		return this.taskService.getTaskWithFilter(filterDto);
+	// 	} else {
+	// 		return this.taskService.getAllTasks();
+	// 	}
+	// }
 
 	// @Get('/:id')
 	// getTaskById(@Param('id') id: string): Task {
 	// 	return this.taskService.getTaskById(id);
 	// }
 
-	// @Get('/:id')
-	// getTaskById(@Param('id') id: number): Promise<Task> {
-	// 	return this.taskService.getTaskById(id);
-	// }
+	@Get('/:id')
+	getTaskById(@Param('id') id: number): Promise<Task> {
+		return this.taskService.getTaskById(id);
+	}
 
 	// @Post()
 	// @UsePipes(ValidationPipe)
