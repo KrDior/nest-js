@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, Query, UsePipes, ValidationPipe, ParseIntPipe, UseGuards, Logger } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 // import { Task, TaskStatus } from './task.module';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -15,6 +15,7 @@ import { User } from 'src/auth/user.entity';
 @Controller('tasks')
 @UseGuards(AuthGuard())
 export class TasksController {
+	private logger = new Logger('TasksController');
 	constructor(private taskService: TasksService) {}
 
 	@Get()
@@ -22,6 +23,7 @@ export class TasksController {
 		@Query(ValidationPipe) filterDto: GetTaskFilterDto,
 		@GetUser() user: User
 		): Promise<Task[]> {
+			this.logger.verbose(`User "${user}" retrieving all tasks. Filteres: ${JSON.stringify(filterDto)}`);
 		return this.taskService.getTasks(filterDto, user);
 	}
 
@@ -39,6 +41,7 @@ export class TasksController {
 		@Body() createTaskDto: CreateTaskDto,
 		@GetUser() user: User
 	): Promise<Task> {
+		this.logger.verbose(`User "${user}" creating a new task. Data: ${JSON.stringify(createTaskDto)}`);
 		return this.taskService.createTask(createTaskDto, user);
 	}
 
